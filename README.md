@@ -32,12 +32,12 @@ Put your test video (mp4 format) under the media folder, rename it as test.mp4.
 
 ### Run video detection
 At the source root
-```python
+```bash
 python inference_video_face.py
 ```
 After finished the processing, find the output video at media folder.
 
-## LICENSE
+## License
 Usage of the code and model by yeephycho is under the license of Apache 2.0.
 
 The code is based on GOOGLE tensorflow object detection api. Please refer to the license of tensorflow.
