@@ -2,15 +2,15 @@
 A mobilenet SSD(single shot multibox detector) based face detector with pretrained model provided, powered by tensorflow [object detection api](https://github.com/tensorflow/models/tree/master/object_detection), trained by [WIDERFACE dataset](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/).
 
 ## Features
---Fast speed, run 60fps on a nvidia GTX1080 GPU.
+Speed, run 60fps on a nvidia GTX1080 GPU.
 
---Less memory, requires less than 400Mb GPU memory for inference.
+Memory, requires less than 364Mb GPU memory for single inference.
 
---Robust to different poses, this feature is credit to [WIDERFACE dataset](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/), I manually cleaned the dataset to balance the precision and recall trade off.
+Robust, adapt to different poses, this feature is credit to [WIDERFACE dataset](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/), I manually cleaned the dataset to balance the precision and recall trade off.
 
---Parallel video processing, can inference multiple input simultaneously, I tested to process 4 videos on a single GPU card at the same time, the speed is still competitive, and there's still room to accommodate more processes.
+Parallel, multiple process video processing, can inference multiple input simultaneously, I tested to process 4 videos on a single GPU card at the same time, the speed is still competitive, and there's still room to accommodate more processes.
 
-![Parallel data processing](https://github.com/yeephycho/tensorflow-face-detection/blob/master/res/test_result.png?raw=true "Show result")
+![Parallel data processing](https://github.com/yeephycho/tensorflow-face-detection/blob/master/res/parallel-processes.png?raw=true "Show result")
 
 ## Dependencies
 Tensorflow > 1.2
