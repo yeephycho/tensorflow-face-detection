@@ -21,7 +21,7 @@ OpenCV python
 
 ## Usage
 ### Effect
-Click [Youtube](https://youtu.be/gw4CVz7SPEs) to view the effect or [Youku currently unavaliable]().
+Click [Youtube](https://youtu.be/gw4CVz7SPEs) to view the effect or [Youku](http://v.youku.com/v_show/id_XMzE2MDc0NzcyNA==.html?spm=a2h3j.8428770.3416059.1).
 
 ### Prepare pre-trained model
 Click [here](https://drive.google.com/open?id=0B5ttP5kO_loUdWZWZVVrN2VmWFk) to download the pre-trained model from google drive.
