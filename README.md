@@ -37,6 +37,14 @@ python inference_video_face.py
 ```
 After finished the processing, find the output video at media folder.
 
+### Further
+The model released by this repo. has already been merged into Deep Video Analytics / Visual Data Network. 
+
+Please click the following link for more applications.
+
+[1] https://www.deepvideoanalytics.com
+[2] https://github.com/VisualDataNetwork/root
+
 ## License
 Usage of the code and model by yeephycho is under the license of Apache 2.0.
 
