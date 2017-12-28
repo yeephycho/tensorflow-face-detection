@@ -37,6 +37,13 @@ python inference_video_face.py
 ```
 After finished the processing, find the output video at media folder.
 
+### Know Issue
+
+Please view that issue [here](https://github.com/yeephycho/tensorflow-face-detection/issues/5) if your output video is blank. A brief reminder is: check the input codec and check the input/output resolution, since this part is irrelevant to the algorithm, no modification will be made to master branch.
+
+
+
+
 ### Further
 The model released by this repo. has already been merged into Deep Video Analytics / Visual Data Network. 
 
