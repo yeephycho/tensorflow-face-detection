@@ -4,19 +4,11 @@
 # pylint: disable=E1101
 
 import numpy as np
-import os
-import six.moves.urllib as urllib
 import sys
-import tarfile
 import tensorflow as tf
-import zipfile
 import time
 import cv2
 
-from collections import defaultdict
-from io import StringIO
-from matplotlib import pyplot as plt
-from PIL import Image
 
 
 sys.path.append("..")
@@ -44,7 +36,6 @@ def load_image_into_numpy_array(image):
 
 # Size, in inches, of the output images.
 # IMAGE_SIZE = (12, 8)
-import matplotlib.image as mpimg
 
 
 cap = cv2.VideoCapture("./media/test.mp4")
@@ -110,10 +101,6 @@ with detection_graph.as_default():
           use_normalized_coordinates=True,
           line_thickness=4)
       out.write(image)
-#      plt.figure(figsize=IMAGE_SIZE)
-#      plt.imshow(image)
-#      plt.imsave(image_path + "_output.png", image_np)
-#      plt.imsave("_output.png", image_np)
 
 
     cap.release()
