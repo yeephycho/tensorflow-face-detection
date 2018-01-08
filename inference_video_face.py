@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# pylint: disable=C0103
 import numpy as np
 import os
 import six.moves.urllib as urllib
@@ -55,13 +58,13 @@ with detection_graph.as_default():
 
 with detection_graph.as_default():
   config = tf.ConfigProto()
-  config.gpu_options.allow_growth=True
+  config.gpu_options.allow_growth = True
   with tf.Session(graph=detection_graph, config=config) as sess:
     frame_num = 1490;
     while(frame_num):
       frame_num -= 1
       ret, image = cap.read()
-      if(ret ==0):
+      if(ret == 0):
           break
 
       if out is None:
