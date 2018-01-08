@@ -3,13 +3,11 @@
 # pylint: disable=C0103
 # pylint: disable=E1101
 
-import numpy as np
 import sys
-import tensorflow as tf
 import time
+import numpy as np
+import tensorflow as tf
 import cv2
-
-
 
 sys.path.append("..")
 
@@ -54,10 +52,10 @@ with detection_graph.as_default():
   config.gpu_options.allow_growth = True
   with tf.Session(graph=detection_graph, config=config) as sess:
     frame_num = 1490;
-    while(frame_num):
+    while frame_num:
       frame_num -= 1
       ret, image = cap.read()
-      if(ret == 0):
+      if ret == 0:
           break
 
       if out is None:
