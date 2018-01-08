@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # pylint: disable=C0103
+# pylint: disable=E1101
+
 import numpy as np
 import os
 import six.moves.urllib as urllib
