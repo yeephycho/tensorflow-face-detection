@@ -43,8 +43,7 @@ import matplotlib.image as mpimg
 
 
 cap = cv2.VideoCapture("./media/test.mp4")
-out = cv2.VideoWriter("./media/test_out.avi", 0, 25.0, (1920, 1080))
-
+out = None
 
 detection_graph = tf.Graph()
 with detection_graph.as_default():
@@ -64,6 +63,12 @@ with detection_graph.as_default():
       ret, image = cap.read()
       if(ret ==0):
           break
+
+      if out is None:
+          [h, w] = image.shape[:2]
+          out = cv2.VideoWriter("./media/test_out.avi", 0, 25.0, (w, h))
+
+
       image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
       # the array based representation of the image will be used later in order to prepare the
