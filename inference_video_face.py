@@ -32,10 +32,6 @@ def load_image_into_numpy_array(image):
   return np.array(image.getdata()).reshape(
       (im_height, im_width, 3)).astype(np.uint8)
 
-# Size, in inches, of the output images.
-# IMAGE_SIZE = (12, 8)
-
-
 cap = cv2.VideoCapture("./media/test.mp4")
 out = None
 
