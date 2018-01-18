@@ -1,18 +1,13 @@
-import numpy as np
-import os
-import six.moves.urllib as urllib
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# pylint: disable=C0103
+# pylint: disable=E1101
+
 import sys
-import tarfile
-import tensorflow as tf
-import zipfile
 import time
+import numpy as np
+import tensorflow as tf
 import cv2
-
-from collections import defaultdict
-from io import StringIO
-from matplotlib import pyplot as plt
-from PIL import Image
-
 
 sys.path.append("..")
 
@@ -37,11 +32,6 @@ def load_image_into_numpy_array(image):
   return np.array(image.getdata()).reshape(
       (im_height, im_width, 3)).astype(np.uint8)
 
-# Size, in inches, of the output images.
-# IMAGE_SIZE = (12, 8)
-import matplotlib.image as mpimg
-
-
 cap = cv2.VideoCapture("./media/test.mp4")
 out = None
 
@@ -55,13 +45,13 @@ with detection_graph.as_default():
 
 with detection_graph.as_default():
   config = tf.ConfigProto()
-  config.gpu_options.allow_growth=True
+  config.gpu_options.allow_growth = True
   with tf.Session(graph=detection_graph, config=config) as sess:
     frame_num = 1490;
-    while(frame_num):
+    while frame_num:
       frame_num -= 1
       ret, image = cap.read()
-      if(ret ==0):
+      if ret == 0:
           break
 
       if out is None:
@@ -105,10 +95,6 @@ with detection_graph.as_default():
           use_normalized_coordinates=True,
           line_thickness=4)
       out.write(image)
-#      plt.figure(figsize=IMAGE_SIZE)
-#      plt.imshow(image)
-#      plt.imsave(image_path + "_output.png", image_np)
-#      plt.imsave("_output.png", image_np)
 
 
     cap.release()
