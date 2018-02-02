@@ -3,6 +3,18 @@
 # pylint: disable=C0103
 # pylint: disable=E1101
 
+
+u"""
+Tensorflow の解説記事
+https://qiita.com/yanosen_jp/items/70e6d6afc36e1c0a3ef3
+https://qiita.com/rindai87/items/4b6f985c0583772a2e21
+https://qiita.com/mski_iksm/items/d0ee0bb679f3e8502747
+
+・np.expand_dims()
+　軸を指定して次元を増やす。
+
+"""
+
 import sys
 import time
 import numpy as np
@@ -28,28 +40,41 @@ category_index = label_map_util.create_category_index(categories)
 
 class TensoflowFaceDector(object):
     def __init__(self):
-        detection_graph = tf.Graph()
-        with detection_graph.as_default():
+        self.detection_graph = tf.Graph()
+        with self.detection_graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
                 serialized_graph = fid.read()
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
-        
+
+
+        with self.detection_graph.as_default():
+          config = tf.ConfigProto()
+          config.gpu_options.allow_growth = True
+          with tf.Session(graph=detection_graph, config=config) as sess:
+            frame_num = 1490;
+
+            windowNotSet = True
+
+
     def run(self, image):
+      """image: bgr image
+      """
+
       image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
       # the array based representation of the image will be used later in order to prepare the
       # result image with boxes and labels on it.
       # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
       image_np_expanded = np.expand_dims(image_np, axis=0)
-      image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
+      image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
       # Each box represents a part of the image where a particular object was detected.
-      boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
+      boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
       # Each score represent how level of confidence for each of the objects.
       # Score is shown on the result image, together with the class label.
-      scores = detection_graph.get_tensor_by_name('detection_scores:0')
-      classes = detection_graph.get_tensor_by_name('detection_classes:0')
+      scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
+      classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
       num_detections = detection_graph.get_tensor_by_name('num_detections:0')
       # Actual detection.
       start_time = time.time()
@@ -57,6 +82,47 @@ class TensoflowFaceDector(object):
           [boxes, scores, classes, num_detections],
           feed_dict={image_tensor: image_np_expanded})
       elapsed_time = time.time() - start_time
+
+    def loop(self):
+        while frame_num:
+#         frame_num -= 1
+          ret, image = cap.read()
+          if ret == 0:
+              break
+
+          image = cv2.flip(image, 1)
+          [h, w] = image.shape[:2]
+          print h, w
+
+          if windowNotSet is True:
+              cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
+              windowNotSet = False
+#          image = cv2.resize(image, (w/2, h/2))
+
+          self.run()
+          print('inference time cost: {}'.format(elapsed_time))
+          #print(boxes.shape, boxes)
+          #print(scores.shape,scores)
+          #print(classes.shape,classes)
+          #print(num_detections)
+          # Visualization of the results of a detection.
+          vis_util.visualize_boxes_and_labels_on_image_array(
+              image,
+              np.squeeze(boxes),
+              np.squeeze(classes).astype(np.int32),
+              np.squeeze(scores),
+              category_index,
+              use_normalized_coordinates=True,
+              line_thickness=4)
+
+
+          cv2.putText(image, 'inference time cost: %.3f' % elapsed_time, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 2)
+          cv2.imshow("tensorflow based (%d, %d)" % (w, h), image)
+          k = cv2.waitKey(1) & 0xff
+          if k == ord('q') or k == 27:
+              break
+
+        cap.release()
 
 if __name__ == "__main__":
     cap = cv2.VideoCapture(0)
@@ -75,14 +141,24 @@ if __name__ == "__main__":
       with tf.Session(graph=detection_graph, config=config) as sess:
         frame_num = 1490;
 
-        cv2.namedWindow("out", cv2.WINDOW_NORMAL)
+        windowNotSet = True
         while frame_num:
 #         frame_num -= 1
           ret, image = cap.read()
           if ret == 0:
               break
 
+          image = cv2.flip(image, 1)
+          [h, w] = image.shape[:2]
+          print h, w
+
+          if windowNotSet is True:
+              cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
+              windowNotSet = False
+#          image = cv2.resize(image, (w/2, h/2))
+
           image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
 
           # the array based representation of the image will be used later in order to prepare the
           # result image with boxes and labels on it.
@@ -117,7 +193,9 @@ if __name__ == "__main__":
               use_normalized_coordinates=True,
               line_thickness=4)
 
-          cv2.imshow("out", image)
+
+          cv2.putText(image, 'inference time cost: %.3f' % elapsed_time, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 2)
+          cv2.imshow("tensorflow based (%d, %d)" % (w, h), image)
           k = cv2.waitKey(1) & 0xff
           if k == ord('q') or k == 27:
               break
