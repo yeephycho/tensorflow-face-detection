@@ -61,7 +61,7 @@ class TensoflowFaceDector(object):
     def run(self, image):
         """image: bgr image
         """
-  
+
         image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # the array based representation of the image will be used later in order to prepare the
@@ -85,28 +85,28 @@ class TensoflowFaceDector(object):
 
     def loop(self):
         while frame_num:
-#         frame_num -= 1
-          ret, image = cap.read()
-          if ret == 0:
-              break
+#           frame_num -= 1
+            ret, image = cap.read()
+            if ret == 0:
+                break
 
-          image = cv2.flip(image, 1)
-          [h, w] = image.shape[:2]
-          print h, w
+            image = cv2.flip(image, 1)
+            [h, w] = image.shape[:2]
+            print h, w
 
-          if windowNotSet is True:
-              cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
-              windowNotSet = False
-#          image = cv2.resize(image, (w/2, h/2))
+            if windowNotSet is True:
+                cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
+                windowNotSet = False
+#                image = cv2.resize(image, (w/2, h/2))
 
-          self.run()
-          print('inference time cost: {}'.format(elapsed_time))
-          #print(boxes.shape, boxes)
-          #print(scores.shape,scores)
-          #print(classes.shape,classes)
-          #print(num_detections)
-          # Visualization of the results of a detection.
-          vis_util.visualize_boxes_and_labels_on_image_array(
+            self.run()
+            print('inference time cost: {}'.format(elapsed_time))
+            #print(boxes.shape, boxes)
+            #print(scores.shape,scores)
+            #print(classes.shape,classes)
+            #print(num_detections)
+            # Visualization of the results of a detection.
+            vis_util.visualize_boxes_and_labels_on_image_array(
               image,
               np.squeeze(boxes),
               np.squeeze(classes).astype(np.int32),
@@ -116,11 +116,11 @@ class TensoflowFaceDector(object):
               line_thickness=4)
 
 
-          cv2.putText(image, 'inference time cost: %.3f' % elapsed_time, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 2)
-          cv2.imshow("tensorflow based (%d, %d)" % (w, h), image)
-          k = cv2.waitKey(1) & 0xff
-          if k == ord('q') or k == 27:
-              break
+            cv2.putText(image, 'inference time cost: %.3f' % elapsed_time, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 2)
+            cv2.imshow("tensorflow based (%d, %d)" % (w, h), image)
+            k = cv2.waitKey(1) & 0xff
+            if k == ord('q') or k == 27:
+                break
 
         cap.release()
 
