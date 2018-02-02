@@ -52,10 +52,10 @@ class TensoflowFaceDector(object):
         with self.detection_graph.as_default():
             config = tf.ConfigProto()
             config.gpu_options.allow_growth = True
-            with tf.Session(graph=detection_graph, config=config) as sess:
+            with tf.Session(graph=detection_graph, config=config) as self.sess:
                 frame_num = 1490;
 
-                windowNotSet = True
+                self.windowNotSet = True
 
 
     def run(self, image):
@@ -75,10 +75,10 @@ class TensoflowFaceDector(object):
         # Score is shown on the result image, together with the class label.
         scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
         classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
-        num_detections = detection_graph.get_tensor_by_name('num_detections:0')
+        num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
         # Actual detection.
         start_time = time.time()
-        (boxes, scores, classes, num_detections) = sess.run(
+        (boxes, scores, classes, num_detections) = self.sess.run(
             [boxes, scores, classes, num_detections],
             feed_dict={image_tensor: image_np_expanded})
         elapsed_time = time.time() - start_time
@@ -94,9 +94,9 @@ class TensoflowFaceDector(object):
             [h, w] = image.shape[:2]
             print h, w
 
-            if windowNotSet is True:
+            if self.windowNotSet is True:
                 cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
-                windowNotSet = False
+                self.windowNotSet = False
 #                image = cv2.resize(image, (w/2, h/2))
 
             self.run()
@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
             windowNotSet = True
             while frame_num:
-#         frame_num -= 1
+#            frame_num -= 1
                 ret, image = cap.read()
                 if ret == 0:
                     break
