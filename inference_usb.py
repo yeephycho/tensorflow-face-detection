@@ -50,38 +50,38 @@ class TensoflowFaceDector(object):
 
 
         with self.detection_graph.as_default():
-          config = tf.ConfigProto()
-          config.gpu_options.allow_growth = True
-          with tf.Session(graph=detection_graph, config=config) as sess:
-            frame_num = 1490;
+            config = tf.ConfigProto()
+            config.gpu_options.allow_growth = True
+            with tf.Session(graph=detection_graph, config=config) as sess:
+                frame_num = 1490;
 
-            windowNotSet = True
+                windowNotSet = True
 
 
     def run(self, image):
-      """image: bgr image
-      """
+        """image: bgr image
+        """
+  
+        image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-      image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-      # the array based representation of the image will be used later in order to prepare the
-      # result image with boxes and labels on it.
-      # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-      image_np_expanded = np.expand_dims(image_np, axis=0)
-      image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
-      # Each box represents a part of the image where a particular object was detected.
-      boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
-      # Each score represent how level of confidence for each of the objects.
-      # Score is shown on the result image, together with the class label.
-      scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
-      classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
-      num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-      # Actual detection.
-      start_time = time.time()
-      (boxes, scores, classes, num_detections) = sess.run(
-          [boxes, scores, classes, num_detections],
-          feed_dict={image_tensor: image_np_expanded})
-      elapsed_time = time.time() - start_time
+        # the array based representation of the image will be used later in order to prepare the
+        # result image with boxes and labels on it.
+        # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+        image_np_expanded = np.expand_dims(image_np, axis=0)
+        image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
+        # Each box represents a part of the image where a particular object was detected.
+        boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
+        # Each score represent how level of confidence for each of the objects.
+        # Score is shown on the result image, together with the class label.
+        scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
+        classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
+        num_detections = detection_graph.get_tensor_by_name('num_detections:0')
+        # Actual detection.
+        start_time = time.time()
+        (boxes, scores, classes, num_detections) = sess.run(
+            [boxes, scores, classes, num_detections],
+            feed_dict={image_tensor: image_np_expanded})
+        elapsed_time = time.time() - start_time
 
     def loop(self):
         while frame_num:
