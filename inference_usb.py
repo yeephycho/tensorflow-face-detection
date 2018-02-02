@@ -136,68 +136,68 @@ if __name__ == "__main__":
             tf.import_graph_def(od_graph_def, name='')
 
     with detection_graph.as_default():
-      config = tf.ConfigProto()
-      config.gpu_options.allow_growth = True
-      with tf.Session(graph=detection_graph, config=config) as sess:
-        frame_num = 1490;
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        with tf.Session(graph=detection_graph, config=config) as sess:
+            frame_num = 1490;
 
-        windowNotSet = True
-        while frame_num:
+            windowNotSet = True
+            while frame_num:
 #         frame_num -= 1
-          ret, image = cap.read()
-          if ret == 0:
-              break
+                ret, image = cap.read()
+                if ret == 0:
+                    break
 
-          image = cv2.flip(image, 1)
-          [h, w] = image.shape[:2]
-          print h, w
+                image = cv2.flip(image, 1)
+                [h, w] = image.shape[:2]
+                print h, w
 
-          if windowNotSet is True:
-              cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
-              windowNotSet = False
-#          image = cv2.resize(image, (w/2, h/2))
+                if windowNotSet is True:
+                    cv2.namedWindow("tensorflow based (%d, %d)" % (w, h), cv2.WINDOW_NORMAL)
+                    windowNotSet = False
+#                image = cv2.resize(image, (w/2, h/2))
 
-          image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-
-          # the array based representation of the image will be used later in order to prepare the
-          # result image with boxes and labels on it.
-          # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-          image_np_expanded = np.expand_dims(image_np, axis=0)
-          image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-          # Each box represents a part of the image where a particular object was detected.
-          boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-          # Each score represent how level of confidence for each of the objects.
-          # Score is shown on the result image, together with the class label.
-          scores = detection_graph.get_tensor_by_name('detection_scores:0')
-          classes = detection_graph.get_tensor_by_name('detection_classes:0')
-          num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-          # Actual detection.
-          start_time = time.time()
-          (boxes, scores, classes, num_detections) = sess.run(
-              [boxes, scores, classes, num_detections],
-              feed_dict={image_tensor: image_np_expanded})
-          elapsed_time = time.time() - start_time
-          print('inference time cost: {}'.format(elapsed_time))
-          #print(boxes.shape, boxes)
-          #print(scores.shape,scores)
-          #print(classes.shape,classes)
-          #print(num_detections)
-          # Visualization of the results of a detection.
-          vis_util.visualize_boxes_and_labels_on_image_array(
-              image,
-              np.squeeze(boxes),
-              np.squeeze(classes).astype(np.int32),
-              np.squeeze(scores),
-              category_index,
-              use_normalized_coordinates=True,
-              line_thickness=4)
+                image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 
-          cv2.putText(image, 'inference time cost: %.3f' % elapsed_time, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 2)
-          cv2.imshow("tensorflow based (%d, %d)" % (w, h), image)
-          k = cv2.waitKey(1) & 0xff
-          if k == ord('q') or k == 27:
-              break
+                # the array based representation of the image will be used later in order to prepare the
+                # result image with boxes and labels on it.
+                # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+                image_np_expanded = np.expand_dims(image_np, axis=0)
+                image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
+                # Each box represents a part of the image where a particular object was detected.
+                boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
+                # Each score represent how level of confidence for each of the objects.
+                # Score is shown on the result image, together with the class label.
+                scores = detection_graph.get_tensor_by_name('detection_scores:0')
+                classes = detection_graph.get_tensor_by_name('detection_classes:0')
+                num_detections = detection_graph.get_tensor_by_name('num_detections:0')
+                # Actual detection.
+                start_time = time.time()
+                (boxes, scores, classes, num_detections) = sess.run(
+                [boxes, scores, classes, num_detections],
+                feed_dict={image_tensor: image_np_expanded})
+                elapsed_time = time.time() - start_time
+                print('inference time cost: {}'.format(elapsed_time))
+                #print(boxes.shape, boxes)
+                #print(scores.shape,scores)
+                #print(classes.shape,classes)
+                #print(num_detections)
+                # Visualization of the results of a detection.
+                vis_util.visualize_boxes_and_labels_on_image_array(
+                    image,
+                    np.squeeze(boxes),
+                    np.squeeze(classes).astype(np.int32),
+                    np.squeeze(scores),
+                    category_index,
+                    use_normalized_coordinates=True,
+                    line_thickness=4)
 
-        cap.release()
+
+                cv2.putText(image, 'inference time cost: %.3f' % elapsed_time, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 2)
+                cv2.imshow("tensorflow based (%d, %d)" % (w, h), image)
+                k = cv2.waitKey(1) & 0xff
+                if k == ord('q') or k == 27:
+                    break
+
+            cap.release()
