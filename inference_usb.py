@@ -3,18 +3,6 @@
 # pylint: disable=C0103
 # pylint: disable=E1101
 
-
-u"""
-Tensorflow の解説記事
-https://qiita.com/yanosen_jp/items/70e6d6afc36e1c0a3ef3
-https://qiita.com/rindai87/items/4b6f985c0583772a2e21
-https://qiita.com/mski_iksm/items/d0ee0bb679f3e8502747
-
-・np.expand_dims()
-　軸を指定して次元を増やす。
-
-"""
-
 import sys
 import time
 import numpy as np
@@ -39,7 +27,7 @@ categories = label_map_util.convert_label_map_to_categories(label_map, max_num_c
 category_index = label_map_util.create_category_index(categories)
 
 class TensoflowFaceDector(object):
-    def __init__(self):
+    def __init__(self, PATH_TO_CKPT, PATH_TO_LABELS,  NUM_CLASSES):
         """Tensorflow detector
         """
 
@@ -102,7 +90,7 @@ example:
 
     camID = int(sys.argv[1])
 
-    tDetector = TensoflowFaceDector()
+    tDetector = TensoflowFaceDector(PATH_TO_CKPT, PATH_TO_LABELS,  NUM_CLASSES)
 
     cap = cv2.VideoCapture(camID)
     windowNotSet = True
