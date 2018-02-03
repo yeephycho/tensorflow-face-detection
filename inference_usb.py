@@ -9,8 +9,6 @@ import numpy as np
 import tensorflow as tf
 import cv2
 
-sys.path.append("..")
-
 from utils import label_map_util
 from utils import visualization_utils_color as vis_util
 
@@ -27,7 +25,7 @@ categories = label_map_util.convert_label_map_to_categories(label_map, max_num_c
 category_index = label_map_util.create_category_index(categories)
 
 class TensoflowFaceDector(object):
-    def __init__(self, PATH_TO_CKPT, PATH_TO_LABELS,  NUM_CLASSES):
+    def __init__(self, PATH_TO_CKPT):
         """Tensorflow detector
         """
 
@@ -90,7 +88,7 @@ example:
 
     camID = int(sys.argv[1])
 
-    tDetector = TensoflowFaceDector(PATH_TO_CKPT, PATH_TO_LABELS,  NUM_CLASSES)
+    tDetector = TensoflowFaceDector(PATH_TO_CKPT)
 
     cap = cv2.VideoCapture(camID)
     windowNotSet = True
