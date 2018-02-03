@@ -52,8 +52,8 @@ class TensoflowFaceDector(object):
         with self.detection_graph.as_default():
             config = tf.ConfigProto()
             config.gpu_options.allow_growth = True
-            with tf.Session(graph=detection_graph, config=config) as self.sess:
-                frame_num = 1490;
+            with tf.Session(graph=self.detection_graph, config=config) as self.sess:
+                frame_num = 1490
 
                 self.windowNotSet = True
 
@@ -125,8 +125,6 @@ class TensoflowFaceDector(object):
         cap.release()
 
 if __name__ == "__main__":
-    cap = cv2.VideoCapture(0)
-
     detection_graph = tf.Graph()
     with detection_graph.as_default():
         od_graph_def = tf.GraphDef()
@@ -135,15 +133,21 @@ if __name__ == "__main__":
             od_graph_def.ParseFromString(serialized_graph)
             tf.import_graph_def(od_graph_def, name='')
 
+
     with detection_graph.as_default():
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
         with tf.Session(graph=detection_graph, config=config) as sess:
-            frame_num = 1490;
+            # ここまで検出器の事前の準備
+
+
+            cap = cv2.VideoCapture(0)
+
+            frame_num = 1490
 
             windowNotSet = True
             while frame_num:
-#            frame_num -= 1
+#                frame_num -= 1
                 ret, image = cap.read()
                 if ret == 0:
                     break
@@ -157,6 +161,8 @@ if __name__ == "__main__":
                     windowNotSet = False
 #                image = cv2.resize(image, (w/2, h/2))
 
+
+                # ここから、画像からの検出処理
                 image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 
@@ -175,14 +181,16 @@ if __name__ == "__main__":
                 # Actual detection.
                 start_time = time.time()
                 (boxes, scores, classes, num_detections) = sess.run(
-                [boxes, scores, classes, num_detections],
-                feed_dict={image_tensor: image_np_expanded})
+                    [boxes, scores, classes, num_detections],
+                    feed_dict={image_tensor: image_np_expanded})
                 elapsed_time = time.time() - start_time
                 print('inference time cost: {}'.format(elapsed_time))
                 #print(boxes.shape, boxes)
                 #print(scores.shape,scores)
                 #print(classes.shape,classes)
                 #print(num_detections)
+
+                # ここから結果の描画処理
                 # Visualization of the results of a detection.
                 vis_util.visualize_boxes_and_labels_on_image_array(
                     image,
@@ -201,3 +209,5 @@ if __name__ == "__main__":
                     break
 
             cap.release()
+
+            # with 文を使っているので、終了処理が自動でなされる。
