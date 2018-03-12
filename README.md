@@ -28,7 +28,7 @@ Click [here](https://drive.google.com/open?id=0B5ttP5kO_loUdWZWZVVrN2VmWFk) to d
 Put the model under the model folder.
 
 ### Prepare video
-Put your test video (mp4 format) under the media folder, rename it as test.mp4. 
+Put your test video (mp4 format) under the media folder, rename it as test.mp4.
 
 ### Run video detection
 At the source root
@@ -36,6 +36,24 @@ At the source root
 python inference_video_face.py
 ```
 After finished the processing, find the output video at media folder.
+
+
+### Run detection from usb camera
+
+You can see how this face detection works with your web camera.
+```
+usage:inference_usbCam_face.py (cameraID | filename)
+```
+
+Here is an example to use usb camera with cameraID=0.
+
+```bash
+python inference_usbCam_face.py 0
+```
+
+Note: this script does not save video.
+
+
 
 ### Know Issue
 
@@ -45,7 +63,7 @@ Please view that issue [here](https://github.com/yeephycho/tensorflow-face-detec
 
 
 ### Further
-The model released by this repo. has already been merged into Deep Video Analytics / Visual Data Network. 
+The model released by this repo. has already been merged into Deep Video Analytics / Visual Data Network.
 
 Please click the following link for more applications.
 
