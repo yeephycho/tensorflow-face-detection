@@ -80,7 +80,7 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) != 2:
         print """usage:%s (cameraID | filename)
-Dectect faces in the video
+Detect faces in the video
 example:
 %s 0
 """ % (sys.argv[0], sys.argv[0])
@@ -125,4 +125,3 @@ example:
             break
 
     cap.release()
-
