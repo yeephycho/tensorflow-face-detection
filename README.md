@@ -1,5 +1,5 @@
 # Tensorflow Face Detector
-A mobilenet SSD(single shot multibox detector) based face detector with pretrained model provided, powered by tensorflow [object detection api](https://github.com/tensorflow/models/tree/master/object_detection), trained by [WIDERFACE dataset](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/).
+A mobilenet SSD(single shot multibox detector) based face detector with pretrained model provided, powered by tensorflow [object detection api](https://github.com/tensorflow/models/tree/master/research/object_detection), trained by [WIDERFACE dataset](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/).
 
 ## Features
 Speed, run 60fps on a nvidia GTX1080 GPU.
@@ -55,7 +55,7 @@ Note: this script does not save video.
 
 
 
-### Know Issue
+### Known Issue
 
 Please view that issue [here](https://github.com/yeephycho/tensorflow-face-detection/issues/5) if your output video is blank. A brief reminder is: check the input codec and check the input/output resolution, since this part is irrelevant to the algorithm, no modification will be made to master branch.
 
