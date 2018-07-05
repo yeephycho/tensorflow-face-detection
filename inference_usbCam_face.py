@@ -82,10 +82,10 @@ if __name__ == "__main__":
  in the video example:%s 0"%(sys.argv[0], sys.argv[0]))
         exit(1)
 
-       try:
-        camID = int(sys.argv[1])
+    try:
+    	camID = int(sys.argv[1])
     except:
-		camID = sys.argv[1]
+    	camID = sys.argv[1]
     
     tDetector = TensoflowFaceDector(PATH_TO_CKPT)
 
