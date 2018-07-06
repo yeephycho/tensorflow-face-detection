@@ -41,9 +41,8 @@ class TensoflowFaceDector(object):
         with self.detection_graph.as_default():
             config = tf.ConfigProto()
             config.gpu_options.allow_growth = True
-            with tf.Session(graph=self.detection_graph, config=config) as self.sess:
-
-                self.windowNotSet = True
+            self.sess = tf.Session(graph=self.detection_graph, config=config)
+            self.windowNotSet = True
 
 
     def run(self, image):
@@ -79,18 +78,15 @@ class TensoflowFaceDector(object):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) != 2:
-        print """usage:%s (cameraID | filename)
-Detect faces in the video
-example:
-%s 0
-""" % (sys.argv[0], sys.argv[0])
+        print ("usage:%s (cameraID | filename) Detect faces\
+ in the video example:%s 0"%(sys.argv[0], sys.argv[0]))
         exit(1)
 
     try:
-        camID = int(sys.argv[1])
+    	camID = int(sys.argv[1])
     except:
-        camID = sys.argv[1]
-
+    	camID = sys.argv[1]
+    
     tDetector = TensoflowFaceDector(PATH_TO_CKPT)
 
     cap = cv2.VideoCapture(camID)
@@ -101,7 +97,7 @@ example:
             break
 
         [h, w] = image.shape[:2]
-        print h, w
+        print (h, w)
         image = cv2.flip(image, 1)
 
         (boxes, scores, classes, num_detections) = tDetector.run(image)
